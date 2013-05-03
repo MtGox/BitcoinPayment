@@ -3,12 +3,12 @@
 class BitcoinPayment {
 	public static function mtgox_check_post() {
 		// API settings
-		$key = 'your_key';
-		$secret = 'your_secret';
+		$wgBitcoinPaymentAPIKey = 'your_wgBitcoinPaymentAPIKey';
+		$wgBitcoinPaymentAPISecret = 'your_wgBitcoinPaymentAPISecret';
 
-		if ($_SERVER['HTTP_REST_KEY'] != $key) return false;
+		if ($_SERVER['HTTP_REST_KEY'] != $wgBitcoinPaymentAPIKey) return false;
 		$post_data = file_get_contents('php://input');
-		$hash = hash_hmac('sha512', $post_data, base64_decode($secret), true);
+		$hash = hash_hmac('sha512', $post_data, base64_decode($wgBitcoinPaymentAPISecret), true);
 		if (base64_decode($_SERVER['HTTP_REST_SIGN']) != $hash) return false;
 
 		return true;
@@ -16,8 +16,8 @@ class BitcoinPayment {
 
 	public static function mtgox_query($path, array $req = array()) {
 		// API settings
-		$key = 'your_key';
-		$secret = 'your_secret';
+		$wgBitcoinPaymentAPIKey = 'your_wgBitcoinPaymentAPIKey';
+		$wgBitcoinPaymentAPISecret = 'your_wgBitcoinPaymentAPISecret';
 	 
 		// generate a nonce as microtime, with as-string handling to avoid problems with 32bits systems
 		$mt = explode(' ', microtime());
@@ -33,8 +33,8 @@ class BitcoinPayment {
 	 
 		// generate the extra headers
 		$headers = array(
-			'Rest-Key: '.$key,
-			'Rest-Sign: '.base64_encode(hash_hmac('sha512', $prefix.$post_data, base64_decode($secret), true)),
+			'Rest-Key: '.$wgBitcoinPaymentAPIKey,
+			'Rest-Sign: '.base64_encode(hash_hmac('sha512', $prefix.$post_data, base64_decode($wgBitcoinPaymentAPISecret), true)),
 		);
 	 
 		// our curl handle (initialize if required)

@@ -12,7 +12,7 @@ class SpecialBitcoinPayment extends SpecialPage {
 				die("error");
 			}
 			if (($_POST['status'] != 'confirmed') && ($_POST['status'] != 'published')) die("not_confirmed"); // don't care
-			if ($_POST['amount_int'] < 1000000) die("too_low"); // amount too low
+			if ($_POST['amount_int'] < $wgBitcoinPaymentFee ) die("too_low"); // amount too low
 			if ($_POST['item'] != 'BTC') die('not_btc');
 
 			$desc = $_POST['description'];
