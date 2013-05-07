@@ -5,14 +5,14 @@ class SpecialBitcoinPayment extends SpecialPage {
 	}
 
 	public function execute($par) {
-		global $wgUser;
+		global $wgUser, $wgBitcoinPaymentFee, $wgBitcoinPaymentSSL;
 
 		if ($par == 'callback') {
 			if (!BitcoinPayment::mtgox_check_post()) {
 				die("error");
 			}
 			if (($_POST['status'] != 'confirmed') && ($_POST['status'] != 'published')) die("not_confirmed"); // don't care
-			if ($_POST['amount_int'] < 1000000) die("too_low"); // amount too low
+			if ($_POST['amount_int'] < $wgBitcoinPaymentFee ) die("too_low"); // amount too low
 			if ($_POST['item'] != 'BTC') die('not_btc');
 
 			$desc = $_POST['description'];
@@ -47,7 +47,11 @@ class SpecialBitcoinPayment extends SpecialPage {
 
 		if (is_null($btc_addr)) {
 //			$url = 'http'.(isset($_SERVER['HTTPS'])?'s':'').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-			$url = 'https://'.$_SERVER['HTTP_HOST'].'/wiki/Special:BitcoinPayment/callback';
+			if( $wgBitcoinPaymentSSL )
+				$protocol = 'https';
+			else
+				$protocol = 'http';
+			$url = $protocol.'://'.$_SERVER['HTTP_HOST'].'/wiki/Special:BitcoinPayment/callback';
 			$btc_addr = BitcoinPayment::mtgox_query('2/money/bitcoin/address', array('ipn' => $url, 'description' => 'WP#'.$wgUser->getId()));
 			if ($btc_addr['result'] != 'success') {
 				$wikitext = 'An error occured, please retry later';
