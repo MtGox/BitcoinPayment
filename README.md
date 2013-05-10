@@ -14,8 +14,8 @@ $wgBitcoinPaymentAPIKey = 'your_API_key';
 $wgBitcoinPaymentAPISecret = 'your_API_secret';
 $wgBitcoinPaymentSSL = true;
 
-# Fee in satoshis to become "trusted", 0.01 BTC shown as default
-$wgBitcoinPaymentFee = 1000000; 
+# Fee in satoshis to become "trusted", 0.001 BTC shown as default
+$wgBitcoinPaymentFee = 100000; 
 
 # register bitcoin: uri syntax for wikitext parsing
 $wgUrlProtocols[] = "bitcoin:";
