@@ -59,7 +59,7 @@ class SpecialBitcoinPayment extends SpecialPage {
 			$wgUser->saveSettings();
 		}
 
-		$wikitext = 'In order to be able to edit pages on this wiki, you will need to send a payment of at least 0.01 BTC to [bitcoin:'.$btc_addr.' '.$btc_addr.']';
+		$wikitext = 'In order to be able to edit pages on this wiki, you will need to send a payment of at least 0.001 BTC to [bitcoin:'.$btc_addr.' '.$btc_addr.']';
 		$wikitext .= "\n\n";
 		$wikitext .= 'Please note that you will need to wait for your transfer to be confirmed.';
 		$wikitext .= "\n\n{{BitcoinPayment|status=todo|addr=$btc_addr}}";
